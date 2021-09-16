@@ -1,12 +1,11 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { ApplicationViews } from "/Users/lincolndunderwood/workspace/weekend-warrior-2/src/components/ApplicationViews.js";
-// import { NavBar } from "./navigation/NavBar";
+import { NavBar } from "./navigation/NavBar";
 import { Login } from "./auth/Login";
 import { Register } from "./auth/Register";
 import "./auth/Login.css";
-// import logo from './logo.svg';
-// import './App.css';
+
 
 export const WeekendWarrior = () => (
   <>
@@ -16,7 +15,8 @@ export const WeekendWarrior = () => (
         if (localStorage.getItem("weekendWarrior_user_id")) {
           return (
             <>
-              {/* <NavBar /> */}
+              <NavBar />
+              <h1>Weekend Warrior</h1>
               <ApplicationViews />
             </>
           );
@@ -25,6 +25,7 @@ export const WeekendWarrior = () => (
         }
       }}
     />
+      
 
     <Route path="/login">
       <Login />
