@@ -1,16 +1,25 @@
 import React, { useEffect, useState } from "react"
 
 export const PartsList = () => {
-    const [parts, changePart] = useState([])
-    const [specialties, setSpecial] = useState("")
-
+    const [parts, setParts] = useState([])
+    
+    const userId = parseInt(localStorage.getItem("weekendWarrior_user_id"))
+    
+    
+    const partsListUsersFetcher = () => {
+        fetch(`http://localhost:8088/vehicles?userId=${userId}&_embed=parts`)
+        .then(res => res.json())
+                .then((data) => {
+                    setParts(data)
+    })
+}
+    
+    
+    
     useEffect(
         () => {
-            fetch("http://localhost:8088/parts?_expand=vehicle&_expand=user")
-                .then(res => res.json())
-                .then((data) => {
-                    changePart(data)
-                })
+                partsListUsersFetcher()
+                
         },
         []
     )
@@ -23,7 +32,23 @@ export const PartsList = () => {
             {
                 parts.map(
                     (part) => {
-                        return <p key={`part--${part.id}`}>{`${part.name} for `}</p>
+                       return <> {part.parts.length > 0? 
+                         <>
+                        <h2>{part.vehicleMake} {part.vehicleModel}</h2>
+                        <ul>
+                            {
+                                part.parts.map(
+                                    (item) => {
+                                        return (<li>
+                                            {item.name}
+                                        </li>)
+                                    }
+                                )
+                            }
+                        </ul>
+
+                        </>
+                        : ""} </>
                     }
                 )
             }

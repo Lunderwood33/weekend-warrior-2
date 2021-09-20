@@ -10,7 +10,7 @@ export const VehicleList = () => {
     
     
     
-    const userFetcher = () => {
+    const vehicleListUsersFetcher = () => {
         fetch(`http://localhost:8088/vehicles?userId=${userId}&_expand=user`)
         .then(res => res.json())
                 .then((data) => {
@@ -19,12 +19,8 @@ export const VehicleList = () => {
 }
 useEffect(
     () => {
-        fetch("http://localhost:8088/vehicles")
-            .then(res => res.json())
-            .then((data) => {
-                setVehicles(data)
-            })
-            userFetcher()
+        
+            vehicleListUsersFetcher()
     },
     []
 )
@@ -42,7 +38,8 @@ useEffect(
         [vehicles]
     )
 
-
+//Find the matching vehicle
+// Filter the parts based on the specific found vehicle
 
     
 
