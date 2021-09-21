@@ -3,6 +3,7 @@ import React from "react";
 import { UserProvider } from "./users/UserProvider.js";
 // import { UserProfile } from "./users/UserProfile.js"
 import { VehicleList } from "./vehicles/VehicleList.js"
+import { VehiclesMaintenanceList } from "./maintenance/MaintenanceList.js"
 import { PartsList } from "./parts/PartsList.js"
 import { Route } from "react-router-dom";
 
@@ -21,6 +22,9 @@ export const ApplicationViews = () => {
                     </Route>
                     <Route exact path= "/vehicles">
                         <VehicleList />
+                        </Route>
+                    <Route exact path= "/maintenance">
+                        <VehiclesMaintenanceList />
                         </Route>
                     <Route exact path= "/parts">
                         <PartsList />
