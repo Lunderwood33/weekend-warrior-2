@@ -37,7 +37,7 @@ export const PartsList = () => {
                         <h2>{part.vehicleMake} {part.vehicleModel}</h2>
                         <ul>
                             {
-                                part.parts.map(
+                                part.parts?.map(
                                     (item) => {
                                         return (<li>
                                             {item.name}

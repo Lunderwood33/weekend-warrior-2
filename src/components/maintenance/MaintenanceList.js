@@ -1,42 +1,66 @@
 import React, { useEffect, useState } from "react"
 
-export const EmployeeList = () => {
-    const [employees, changeEmployee] = useState([])
-    const [specialties, setSpecial] = useState("")
+export const VehiclesMaintenanceList = () => {
+    const [vehiclesMaintenance, setVehiclesMaintenance] = useState([])
+    
+    const userId = parseInt(localStorage.getItem("weekendWarrior_user_id"))
+    
+    
+    const vehicleMaintenanceListUsersFetcher = () => {
+        fetch(`http://localhost:8088/vehicles?userId=${userId}&_embed=maintenance`)
+        .then(res => res.json())
+                .then((data) => {
+                    setVehiclesMaintenance(data)
+    })
+}
 
+    const vehicleMaintenanceFetcher = () => {
+        fetch(`http://localhost:8088/maintenance?_expand=user&_expand=vehicle`)
+        .then(res => res.json())
+                .then((data) => {
+                    vehicleMaintenanceFetcher(data)
+    })
+    }
+    
+    
+    
     useEffect(
         () => {
-            fetch("http://localhost:8088/employees")
-                .then(res => res.json())
-                .then((employeesFromAPI) => {
-                    changeEmployee(employeesFromAPI)
-                })
+                vehicleMaintenanceListUsersFetcher()
+                
         },
         []
     )
 
-    useEffect(() => {
-       
-        const justSpecialities = employees.map(employee => employee.specialty)
-        setSpecial(justSpecialities.join(", "))
     
-        /*
-
-            1. Use .map() to get the specialty of each employee
-            2. Then update a state variable to be a comma-separated string
-                (e.g. "iPhone, Printers, ...")
-        */
-    }, [employees])
 
     return (
         <>
-            <div>
-                Specialties: { specialties }
-            </div>
+            
             {
-                employees.map(
-                    (employee) => {
-                        return <p key={`employee--${employee.id}`}>{employee.name}</p>
+                vehiclesMaintenance.map(
+                    (vehicleMaintenance) => {
+                       return <>  {vehicleMaintenance.maintenance.length > 0?
+                    
+                       <>
+                       {console.log(vehicleMaintenance)}
+                         
+                        <h2>{vehicleMaintenance.vehicleYear} {vehicleMaintenance.vehicleMake} {vehicleMaintenance.vehicleModel}</h2>
+                        <ul>
+                            {
+                                vehicleMaintenance.maintenance?.map(
+                                    (service) => {
+                                        return (<li>
+                                            {service.serviceType} at {service.miles} miles.
+                                        </li>)
+                                    }
+                                )
+                            }
+                        </ul>
+
+                        </>
+                        : ""} </>
+                        
                     }
                 )
             }
