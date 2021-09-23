@@ -1,7 +1,8 @@
 import React from "react";
-// import { FishProvider } from "./fish/FishProvider.js";
+import { AddVehicleForm } from "./vehicles/AddVehicleForm.js"
+import { AddMaintenanceRecord } from "./maintenance/AddMaintenanceRecord.js"
 import { UserProvider } from "./users/UserProvider.js";
-// import { UserProfile } from "./users/UserProfile.js"
+
 import { VehicleList } from "./vehicles/VehicleList.js"
 import { VehiclesMaintenanceList } from "./maintenance/MaintenanceList.js"
 import { PartsList } from "./parts/PartsList.js"
@@ -14,15 +15,22 @@ export const ApplicationViews = () => {
         <>
             <UserProvider>
                     
-                {/* <FishProvider> */}
 
                     <Route  path="/users/profile/:userId(\d+)">
                         
-                        
                     </Route>
+                        
+                        <Route exact path ="/">
+                    <AddVehicleForm />
+                    <AddMaintenanceRecord />
+                    </Route>
+                    
+                        
                     <Route exact path= "/vehicles">
                         <VehicleList />
                         </Route>
+
+
                     <Route exact path= "/maintenance">
                         <VehiclesMaintenanceList />
                         </Route>
@@ -30,7 +38,7 @@ export const ApplicationViews = () => {
                         <PartsList />
                         </Route>
 
-                {/* </FishProvider> */}
+                
             </UserProvider>
 
         </>
