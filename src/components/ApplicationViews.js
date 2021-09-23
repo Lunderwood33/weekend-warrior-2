@@ -7,6 +7,7 @@ import { VehicleList } from "./vehicles/VehicleList.js"
 import { VehiclesMaintenanceList } from "./maintenance/MaintenanceList.js"
 import { PartsList } from "./parts/PartsList.js"
 import { Route } from "react-router-dom";
+import { AddParts } from "./parts/AddPartsForm.js";
 
 
 
@@ -23,6 +24,7 @@ export const ApplicationViews = () => {
                         <Route exact path ="/">
                     <AddVehicleForm />
                     <AddMaintenanceRecord />
+                    <AddParts />
                     </Route>
                     
                         
