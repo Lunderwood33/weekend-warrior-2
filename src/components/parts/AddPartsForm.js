@@ -1,20 +1,46 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
+import { useHistory } from "react-router"
+import "./PartsList.css"
 
 export const AddParts = () => {
-    const [parts, updateParts] = useState({
+    
+    const [parts, setParts] = useState([])
+    const userId = parseInt(localStorage.getItem("weekendWarrior_user_id"))
+    const history = useHistory()
+    
 
-        vehicleId: parseInt(),
+    const partsListUsersFetcher = () => {
+        fetch(`http://localhost:8088/vehicles?userId=${userId}&_embed=parts`)
+        .then(res => res.json())
+                .then((data) => {
+                    setParts(data)
+    })
+}
+    
+    
+    
+    useEffect(
+        () => {
+                partsListUsersFetcher()
+                
+        },
+        []
+    )
+    
+    
+    const [part, updatePart] = useState({
+
         name: "",
-        miles: parseInt()
-       
+        vehicleId: "",
+        miles: parseInt(),
         
     });
 
-    const submitParts = (event) => {
-        const newRecord = {
-            vehicleId: parts.vehicleId,
-            name: parts.name,
-            miles: parts.miles,
+    const submitNewPart = (event) => {
+        const newPart = {
+            name: part.name,
+            vehicleId: parseInt(part.vehicleId),
+            miles: part.miles,
             userId: parseInt(localStorage.getItem("weekendWarrior_user_id"))
         }
         const fetchOption = {
@@ -22,48 +48,65 @@ export const AddParts = () => {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify[newRecord]
+            body: JSON.stringify(newPart)
         }
-        event.preventDefault()
+        return fetch("http://localhost:8088/parts", fetchOption)
+        // .then(response => response.json())
+        .then(() => {
+            history.push("/")
+        })
     }
 
     return (
-        <form className="addParts">
-            <h2 className="addParts__title">Add New Part</h2>
-            
+        <form className="addNewPart">
+            <h2 className="addNewPart__title">Add New Part</h2>
             <fieldset>
                 <div className="form-group">
                     <label htmlFor="vehicleId">Vehicle:</label>
-                    <input
+                    <select
                         onChange={
                             (event) => {
-                                const copy = {...parts}
+                                const copy = {...part}
                                 copy.vehicleId = event.target.value
-                                updateParts(copy)
-                            }
-                        }
-                        required autoFocus
-                        type="dropdown"
-                        className="form-control"
-                        placeholder="Select Vehicle"
-                         />
-                </div>
-            </fieldset>
-            <fieldset>
-                <div className="form-group">
-                    <label htmlFor="name">Part:</label>
-                    <input
-                        onChange={
-                            (event) => {
-                                const copy = {...parts}
-                                copy.serviceType = event.target.value
-                                updateParts(copy)
+                                updatePart(copy)
                             }
                         }
                         required autoFocus
                         type="text"
                         className="form-control"
-                        placeholder="Part Installed"
+                        placeholder="Select Vehicle"
+                         > 
+                             return (
+        <>
+        <option>Select Vehicle</option>
+            {
+                parts.map(
+                    (vehicle) => {
+                        return <option key={`vehicle--${vehicle.id}`} value={vehicle.id}>{`${vehicle.vehicleYear} ${vehicle.vehicleMake} ${vehicle.vehicleModel}`}</option>
+                    },
+                    // ` <option>name="selectedVehicle" value="vehicle--${vehicle.id}">${vehicle.name}</option>`
+                    )
+                }
+        </>
+    )
+                         </select>
+                </div>
+            </fieldset>
+            <fieldset>
+                <div className="form-group">
+                    <label htmlFor="name">Part Added:</label>
+                    <input
+                        onChange={
+                            (event) => {
+                                const copy = {...part}
+                                copy.name = event.target.value
+                                updatePart(copy)
+                            }
+                        }
+                        required autoFocus
+                        type="text"
+                        className="form-control"
+                        placeholder="Part Description"
                          />
                 </div>
             </fieldset>
@@ -74,9 +117,9 @@ export const AddParts = () => {
                     <input
                         onChange={
                             (event) => {
-                                const copy = {...parts}
+                                const copy = {...part}
                                 copy.miles = event.target.value
-                                updateParts(copy)
+                                updatePart(copy)
                             }
                         }
                         required autoFocus
@@ -87,12 +130,12 @@ export const AddParts = () => {
                 </div>
             </fieldset>
             
-            <button className="btn btn-primary" onClick={submitParts}>
-                Submit Parts
+            <button className="btn btn-primary" onClick={submitNewPart}>
+                Submit Part
             </button>
-            {/* <button className="btn btn-primary" onClick={submitParts}>
-                Clear
-            </button> */}
+            <button className="btn btn-primary" onClick={() => {
+                    history.push(`/`)
+                }}>Cancel</button>
         </form>
     )
 }

@@ -23,12 +23,19 @@ export const PartsList = () => {
         },
         []
     )
-
+    const deletePart = (id) => {
+        fetch(`http://localhost:8088/parts/${id} `, {
+            method: "DELETE"
+        })
+        .then(() => {
+            window.location.reload(false);
+        })
+    }
     
 
     return (
         <>
-            
+            <div className="partsList">
             {
                 parts.map(
                     (part) => {
@@ -39,9 +46,13 @@ export const PartsList = () => {
                             {
                                 part.parts?.map(
                                     (item) => {
-                                        return (<li>
-                                            {item.name}
-                                        </li>)
+                                        return <> <li>
+                                            {item.name} at {item.miles} miles.
+                                        </li>
+                                        <button color="primary" onClick={() => {
+                                            deletePart(item.id)
+                                        }}>Delete</button>
+                                        </>
                                     }
                                 )
                             }
@@ -52,6 +63,7 @@ export const PartsList = () => {
                     }
                 )
             }
+            </div>
         </>
     )
 }

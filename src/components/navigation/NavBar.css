@@ -1,0 +1,22 @@
+.navbar {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    background-color: rgb(231, 71, 71);
+    height: 5rem;
+    color: aquamarine;
+}
+
+.navbar__item {
+    flex-basis: 90%;
+    list-style-type: none;
+    text-align: center;
+    padding-top: 2rem;
+    color: white;
+    
+}
+
+.navbar__item:hover {
+    color: rgb(3, 243, 55);
+    transition: all ease-in-out 1s;
+}

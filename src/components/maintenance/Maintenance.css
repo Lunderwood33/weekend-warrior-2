@@ -1,11 +1,13 @@
 
 
-.addVehicleForm {
+
+.addMaintenanceRecord {
     padding-left: 2rem;
     padding-right: 40rem;
     
 }
 
-.vehicleList {
+.maintenanceList {
     padding-left: 2rem;
 }
+

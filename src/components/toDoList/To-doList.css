@@ -1,0 +1,13 @@
+.toDoList {
+    padding-left: 60rem;
+    padding-right: 30rem;
+    height: 100%; /* Full-height: remove this if you want "auto" height */
+  width: 20rem; /* Set the width of the sidebar */
+  position: fixed;
+  z-index: 1;
+  overflow-x: hidden; /* Disable horizontal scroll */
+  /* padding-top: 20px; */
+  margin-left: 60rem; 
+  padding: 0px 10px;
+}
+

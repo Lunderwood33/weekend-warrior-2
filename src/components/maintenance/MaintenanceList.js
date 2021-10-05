@@ -32,11 +32,18 @@ export const VehiclesMaintenanceList = () => {
         []
     )
 
-    
+    const deleteMaintenanceItem = (id) => {
+        fetch(`http://localhost:8088/maintenance/${id} `, {
+            method: "DELETE"
+        })
+        .then(() => {
+            window.location.reload(false);
+        })
+    }
 
     return (
         <>
-            
+            <div className="maintenanceList">
             {
                 vehiclesMaintenance.map(
                     (vehicleMaintenance) => {
@@ -50,9 +57,12 @@ export const VehiclesMaintenanceList = () => {
                             {
                                 vehicleMaintenance.maintenance?.map(
                                     (service) => {
-                                        return (<li>
+                                        return <> <li>
                                             {service.serviceType} at {service.miles} miles.
-                                        </li>)
+                                            <button color="primary" onClick={() => {
+                                            deleteMaintenanceItem(service.id)
+                                        }}>Delete</button>
+                                        </li> </>
                                     }
                                 )
                             }
@@ -64,6 +74,7 @@ export const VehiclesMaintenanceList = () => {
                     }
                 )
             }
+            </div>
         </>
     )
 }

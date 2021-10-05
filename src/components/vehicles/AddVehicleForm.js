@@ -1,29 +1,42 @@
 import React, { useState } from "react"
+import { useHistory } from "react-router";
+import "./Vehicles.css"
 
 export const AddVehicleForm = () => {
     const [vehicleForm, updateVehicleForm] = useState({
 
-        vehicleYear: parseInt(),
+        vehicleYear: "",
         vehicleMake: "",
         vehicleModel: "",
         
-    });
+    })
+    const history = useHistory()
 
-    const submitVehicleForm = (event) => {
+    const submitVehicleForm = () => {
+        
+        
         const newVehicle = {
-            vehicleYear: vehicleForm.vehicleYear,
+            vehicleYear: parseInt(vehicleForm.vehicleYear),
             vehicleMake: vehicleForm.vehicleMake,
             vehicleModel: vehicleForm.vehicleModel,
             userId: parseInt(localStorage.getItem("weekendWarrior_user_id"))
         }
+        
         const fetchOption = {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify[newVehicle]
+            body: JSON.stringify(newVehicle)
         }
-        event.preventDefault()
+        
+    
+
+        return fetch("http://localhost:8088/vehicles", fetchOption)
+        // .then(response => response.json())
+        .then(() => {
+            history.push("/vehicles")
+        })
     }
 
     return (
@@ -84,9 +97,12 @@ export const AddVehicleForm = () => {
                 </div>
             </fieldset>
             
-            <button className="btn btn-primary" onClick={submitVehicleForm}>
+            <button  onClick={() => submitVehicleForm()} className="btn btn-primary">
                 Submit Vehicle
             </button>
+            <button className="btn btn-primary" onClick={() => {
+                    history.push(`/`)
+                }}>Cancel</button>
         </form>
     )
 }

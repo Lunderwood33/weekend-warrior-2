@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react"
+import { useHistory } from "react-router"
 // import { UserList } from "../users/UserList"
 
 
@@ -8,7 +9,7 @@ export const VehicleList = () => {
     const [totalVehicleMessage, updateMessage] = useState("")
     const userId = parseInt(localStorage.getItem("weekendWarrior_user_id"))
     
-    
+    const history = useHistory()
     
     const vehicleListUsersFetcher = () => {
         fetch(`http://localhost:8088/vehicles?userId=${userId}&_expand=user`)
@@ -41,18 +42,34 @@ useEffect(
 //Find the matching vehicle
 // Filter the parts based on the specific found vehicle
 
-    
+const deleteVehicle = (id) => {
+    fetch(`http://localhost:8088/vehicles/${id} `, {
+        method: "DELETE"
+    })
+    .then(() => {
+        window.location.reload(false);
+    })
+}
 
     return (
         <>
-        <div>{totalVehicleMessage}</div>
+        <div className="vehicleList">
+        <div><h3>{totalVehicleMessage}</h3></div>
             {
                 vehicles.map(
                     (vehicle) => {
-                        return <p key={`vehicle--${vehicle.id}`}>{`${vehicle.vehicleYear} ${vehicle.vehicleMake} ${vehicle.vehicleModel}`}</p>
+                        return <> <p key={`vehicle--${vehicle.id}`}>{`${vehicle.vehicleYear} ${vehicle.vehicleMake} ${vehicle.vehicleModel}`}</p>
+                        <button color="primary" onClick={() => {
+                            deleteVehicle(vehicle.id)
+                        }}>Delete</button>
+                        </>
                     }
                 )
             }
+                 
+                 </div>   
+                
         </>
     )
+    
 }
